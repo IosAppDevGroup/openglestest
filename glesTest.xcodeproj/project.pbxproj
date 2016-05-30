@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A3ED8E51CFC092A0085F912 /* GLTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3ED8E41CFC092A0085F912 /* GLTester.swift */; };
 		5A4E5E511CF5ED0A0075BFE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4E5E501CF5ED0A0075BFE9 /* AppDelegate.swift */; };
 		5A4E5E531CF5ED0A0075BFE9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4E5E521CF5ED0A0075BFE9 /* ViewController.swift */; };
 		5A4E5E561CF5ED0A0075BFE9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A4E5E541CF5ED0A0075BFE9 /* Main.storyboard */; };
@@ -14,6 +15,8 @@
 		5A4E5E5B1CF5ED0A0075BFE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A4E5E591CF5ED0A0075BFE9 /* LaunchScreen.storyboard */; };
 		5A4E5E661CF5ED0B0075BFE9 /* glesTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4E5E651CF5ED0B0075BFE9 /* glesTestTests.swift */; };
 		5A4E5E711CF5ED0B0075BFE9 /* glesTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4E5E701CF5ED0B0075BFE9 /* glesTestUITests.swift */; };
+		5A7B590C1CFC317500DB617C /* MyGLKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7B590B1CFC317500DB617C /* MyGLKViewController.swift */; };
+		5AD4FDA91CFC651F00BCA96B /* MusicCubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4FDA81CFC651F00BCA96B /* MusicCubeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5A3ED8E41CFC092A0085F912 /* GLTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GLTester.swift; sourceTree = "<group>"; };
 		5A4E5E4D1CF5ED0A0075BFE9 /* glesTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = glesTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A4E5E501CF5ED0A0075BFE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A4E5E521CF5ED0A0075BFE9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +51,8 @@
 		5A4E5E6C1CF5ED0B0075BFE9 /* glesTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = glesTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A4E5E701CF5ED0B0075BFE9 /* glesTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = glesTestUITests.swift; sourceTree = "<group>"; };
 		5A4E5E721CF5ED0B0075BFE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A7B590B1CFC317500DB617C /* MyGLKViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyGLKViewController.swift; sourceTree = "<group>"; };
+		5AD4FDA81CFC651F00BCA96B /* MusicCubeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicCubeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,12 +103,15 @@
 		5A4E5E4F1CF5ED0A0075BFE9 /* glesTest */ = {
 			isa = PBXGroup;
 			children = (
+				5AD4FDA71CFC64EA00BCA96B /* musicbox */,
 				5A4E5E501CF5ED0A0075BFE9 /* AppDelegate.swift */,
 				5A4E5E521CF5ED0A0075BFE9 /* ViewController.swift */,
 				5A4E5E541CF5ED0A0075BFE9 /* Main.storyboard */,
 				5A4E5E571CF5ED0A0075BFE9 /* Assets.xcassets */,
 				5A4E5E591CF5ED0A0075BFE9 /* LaunchScreen.storyboard */,
 				5A4E5E5C1CF5ED0A0075BFE9 /* Info.plist */,
+				5A3ED8E41CFC092A0085F912 /* GLTester.swift */,
+				5A7B590B1CFC317500DB617C /* MyGLKViewController.swift */,
 			);
 			path = glesTest;
 			sourceTree = "<group>";
@@ -123,6 +132,14 @@
 				5A4E5E721CF5ED0B0075BFE9 /* Info.plist */,
 			);
 			path = glesTestUITests;
+			sourceTree = "<group>";
+		};
+		5AD4FDA71CFC64EA00BCA96B /* musicbox */ = {
+			isa = PBXGroup;
+			children = (
+				5AD4FDA81CFC651F00BCA96B /* MusicCubeViewController.swift */,
+			);
+			name = musicbox;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,6 +210,7 @@
 				TargetAttributes = {
 					5A4E5E4C1CF5ED0A0075BFE9 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = MLM6EQV39M;
 					};
 					5A4E5E601CF5ED0B0075BFE9 = {
 						CreatedOnToolsVersion = 7.3;
@@ -256,8 +274,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AD4FDA91CFC651F00BCA96B /* MusicCubeViewController.swift in Sources */,
 				5A4E5E531CF5ED0A0075BFE9 /* ViewController.swift in Sources */,
+				5A3ED8E51CFC092A0085F912 /* GLTester.swift in Sources */,
 				5A4E5E511CF5ED0A0075BFE9 /* AppDelegate.swift in Sources */,
+				5A7B590C1CFC317500DB617C /* MyGLKViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,10 +422,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = glesTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = flonly.glesTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -412,10 +436,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = glesTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = flonly.glesTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -484,6 +511,7 @@
 				5A4E5E771CF5ED0B0075BFE9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5A4E5E781CF5ED0B0075BFE9 /* Build configuration list for PBXNativeTarget "glesTestTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +520,7 @@
 				5A4E5E7A1CF5ED0B0075BFE9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5A4E5E7B1CF5ED0B0075BFE9 /* Build configuration list for PBXNativeTarget "glesTestUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +529,7 @@
 				5A4E5E7D1CF5ED0B0075BFE9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
