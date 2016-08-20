@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A0EBDC11D68719C00B490EB /* notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A0EBDC01D68719C00B490EB /* notes.txt */; };
 		5A3ED8E51CFC092A0085F912 /* GLTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3ED8E41CFC092A0085F912 /* GLTester.swift */; };
 		5A4E5E511CF5ED0A0075BFE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4E5E501CF5ED0A0075BFE9 /* AppDelegate.swift */; };
 		5A4E5E531CF5ED0A0075BFE9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4E5E521CF5ED0A0075BFE9 /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 		5A4E5E661CF5ED0B0075BFE9 /* glesTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4E5E651CF5ED0B0075BFE9 /* glesTestTests.swift */; };
 		5A4E5E711CF5ED0B0075BFE9 /* glesTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4E5E701CF5ED0B0075BFE9 /* glesTestUITests.swift */; };
 		5A7B590C1CFC317500DB617C /* MyGLKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7B590B1CFC317500DB617C /* MyGLKViewController.swift */; };
+		5A82F98B1D684E99009FB9BA /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A82F98A1D684E99009FB9BA /* Cube.swift */; };
 		5AD4FDA91CFC651F00BCA96B /* MusicCubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4FDA81CFC651F00BCA96B /* MusicCubeViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5A0EBDC01D68719C00B490EB /* notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = notes.txt; sourceTree = "<group>"; };
 		5A3ED8E41CFC092A0085F912 /* GLTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GLTester.swift; sourceTree = "<group>"; };
 		5A4E5E4D1CF5ED0A0075BFE9 /* glesTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = glesTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A4E5E501CF5ED0A0075BFE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +55,7 @@
 		5A4E5E701CF5ED0B0075BFE9 /* glesTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = glesTestUITests.swift; sourceTree = "<group>"; };
 		5A4E5E721CF5ED0B0075BFE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A7B590B1CFC317500DB617C /* MyGLKViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyGLKViewController.swift; sourceTree = "<group>"; };
+		5A82F98A1D684E99009FB9BA /* Cube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cube.swift; path = geoModel/Cube.swift; sourceTree = "<group>"; };
 		5AD4FDA81CFC651F00BCA96B /* MusicCubeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicCubeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,6 +87,7 @@
 		5A4E5E441CF5ED0A0075BFE9 = {
 			isa = PBXGroup;
 			children = (
+				5A0EBDC01D68719C00B490EB /* notes.txt */,
 				5A4E5E4F1CF5ED0A0075BFE9 /* glesTest */,
 				5A4E5E641CF5ED0B0075BFE9 /* glesTestTests */,
 				5A4E5E6F1CF5ED0B0075BFE9 /* glesTestUITests */,
@@ -103,6 +108,7 @@
 		5A4E5E4F1CF5ED0A0075BFE9 /* glesTest */ = {
 			isa = PBXGroup;
 			children = (
+				5A82F9891D684E26009FB9BA /* geoModel */,
 				5AD4FDA71CFC64EA00BCA96B /* musicbox */,
 				5A4E5E501CF5ED0A0075BFE9 /* AppDelegate.swift */,
 				5A4E5E521CF5ED0A0075BFE9 /* ViewController.swift */,
@@ -132,6 +138,14 @@
 				5A4E5E721CF5ED0B0075BFE9 /* Info.plist */,
 			);
 			path = glesTestUITests;
+			sourceTree = "<group>";
+		};
+		5A82F9891D684E26009FB9BA /* geoModel */ = {
+			isa = PBXGroup;
+			children = (
+				5A82F98A1D684E99009FB9BA /* Cube.swift */,
+			);
+			name = geoModel;
 			sourceTree = "<group>";
 		};
 		5AD4FDA71CFC64EA00BCA96B /* musicbox */ = {
@@ -247,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A0EBDC11D68719C00B490EB /* notes.txt in Resources */,
 				5A4E5E5B1CF5ED0A0075BFE9 /* LaunchScreen.storyboard in Resources */,
 				5A4E5E581CF5ED0A0075BFE9 /* Assets.xcassets in Resources */,
 				5A4E5E561CF5ED0A0075BFE9 /* Main.storyboard in Resources */,
@@ -276,6 +291,7 @@
 			files = (
 				5AD4FDA91CFC651F00BCA96B /* MusicCubeViewController.swift in Sources */,
 				5A4E5E531CF5ED0A0075BFE9 /* ViewController.swift in Sources */,
+				5A82F98B1D684E99009FB9BA /* Cube.swift in Sources */,
 				5A3ED8E51CFC092A0085F912 /* GLTester.swift in Sources */,
 				5A4E5E511CF5ED0A0075BFE9 /* AppDelegate.swift in Sources */,
 				5A7B590C1CFC317500DB617C /* MyGLKViewController.swift in Sources */,
