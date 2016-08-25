@@ -10,15 +10,20 @@ import Foundation
 import GLKit
 
 class MyGLKViewController: GLKViewController {
+    
+    private var cube:Cube? = nil
+    
     override func overrideTraitCollectionForChildViewController(childViewController: UIViewController) -> UITraitCollection? {
         return super.overrideTraitCollectionForChildViewController(childViewController)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.preferredFramesPerSecond = 60;
 
         prepareGLContext()
+        
+        cube = Cube()
     }
 
     // MARK: private function
@@ -51,7 +56,7 @@ class MyGLKViewController: GLKViewController {
     
     
     override func glkView(view: GLKView, drawInRect rect: CGRect) {
-        
+        cube?.draw()
     }
     
 }

@@ -58,7 +58,8 @@ class Cube {
     var glProgram: GLuint = 0;
     
     // MARK: shader attributes
-    // var glPostionSlot:
+    var glPostionSlot: GLuint = 0;
+    var glColorSlot :GLuint = 0;
     
     // MARK: construct
     init() {
@@ -74,7 +75,7 @@ class Cube {
         glAttachShader(glProgram, fragmentShader)
         glLinkProgram(glProgram)
         
-        var linkSuccess: GLint = 0
+        var linkSuccess: GLint = GL_TRUE
         glGetProgramiv(glProgram, GLenum(GL_LINK_STATUS), &linkSuccess)
         if linkSuccess == GL_FALSE {
             var message:[GLchar] = [GLchar]()
@@ -84,6 +85,9 @@ class Cube {
             print(" link program err : \(message)\n")
         }
         
+        glUseProgram(glProgram)
+        
+        
     }
     
     func loadShader(code: String, shaderType: GLenum) -> GLuint{
@@ -92,14 +96,14 @@ class Cube {
         var sourceCode: UnsafePointer<GLchar> = codeNString.UTF8String
         glShaderSource(shaderName, 1, &sourceCode, nil)
         glCompileShader(shaderName)
-        var status: GLint = 0
+        var status: GLint = GL_TRUE
         glGetShaderiv(shaderName, GLenum(GL_COMPILE_STATUS), &status)
         if status == GL_FALSE {
             var message:[GLchar] = [GLchar]()
             var msgLength: GLint = 0;
             message.reserveCapacity(256)
             glGetShaderInfoLog(shaderName, GLint(message.capacity), &msgLength, &message)
-            print(" init shader type = \(shaderType) failed, err: \(message) \n");
+            print(" init shader type = \(shaderType) failed, err: \(String.fromCString(&message)) \n");
             exit(-1)
         }
         
@@ -122,7 +126,6 @@ class Cube {
         glVertexAttribPointer(GLuint(GLKVertexAttrib.Position.rawValue), 3, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0, nil)
         glEnableVertexAttribArray(vertexBuffer)
         
-
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), indexBuffer)
         glDrawElements(GLenum(GL_TRIANGLES), GLint(vertex_index.count/3), GLenum(GL_SHORT), nil)
     }

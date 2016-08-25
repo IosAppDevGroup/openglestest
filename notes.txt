@@ -3,7 +3,15 @@
 1.OpenGL Tutorial for iOS: OpenGL ES 2.0
     https://www.raywenderlich.com/3664/opengl-tutorial-for-ios-opengl-es-2-0
 
+2.绘制立方体
+http://www.opengl-tutorial.org/cn/beginners-tutorials/tutorial-4-a-colored-cube/
+
+3.第二课：绘制第一个三角形
+http://www.opengl-tutorial.org/cn/beginners-tutorials/tutorial-2-the-first-triangle/
 
 dev notes:
 
 Compiling Vertex and Fragment Shaders
+
+
+
