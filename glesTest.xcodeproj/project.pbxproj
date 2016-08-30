@@ -16,9 +16,11 @@
 		5A4E5E5B1CF5ED0A0075BFE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A4E5E591CF5ED0A0075BFE9 /* LaunchScreen.storyboard */; };
 		5A4E5E661CF5ED0B0075BFE9 /* glesTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4E5E651CF5ED0B0075BFE9 /* glesTestTests.swift */; };
 		5A4E5E711CF5ED0B0075BFE9 /* glesTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4E5E701CF5ED0B0075BFE9 /* glesTestUITests.swift */; };
+		5A655E2A1D75A23900A69D9C /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A655E291D75A23900A69D9C /* Triangle.swift */; };
 		5A7B590C1CFC317500DB617C /* MyGLKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7B590B1CFC317500DB617C /* MyGLKViewController.swift */; };
 		5A82F98B1D684E99009FB9BA /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A82F98A1D684E99009FB9BA /* Cube.swift */; };
 		5AD4FDA91CFC651F00BCA96B /* MusicCubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4FDA81CFC651F00BCA96B /* MusicCubeViewController.swift */; };
+		5AF993671D7026950044425C /* GLWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF993661D7026950044425C /* GLWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,9 +56,11 @@
 		5A4E5E6C1CF5ED0B0075BFE9 /* glesTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = glesTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A4E5E701CF5ED0B0075BFE9 /* glesTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = glesTestUITests.swift; sourceTree = "<group>"; };
 		5A4E5E721CF5ED0B0075BFE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A655E291D75A23900A69D9C /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
 		5A7B590B1CFC317500DB617C /* MyGLKViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyGLKViewController.swift; sourceTree = "<group>"; };
 		5A82F98A1D684E99009FB9BA /* Cube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cube.swift; path = geoModel/Cube.swift; sourceTree = "<group>"; };
 		5AD4FDA81CFC651F00BCA96B /* MusicCubeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicCubeViewController.swift; sourceTree = "<group>"; };
+		5AF993661D7026950044425C /* GLWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GLWrapper.swift; path = glcore/GLWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +112,7 @@
 		5A4E5E4F1CF5ED0A0075BFE9 /* glesTest */ = {
 			isa = PBXGroup;
 			children = (
+				5AF993681D7026A00044425C /* glcore */,
 				5A82F9891D684E26009FB9BA /* geoModel */,
 				5AD4FDA71CFC64EA00BCA96B /* musicbox */,
 				5A4E5E501CF5ED0A0075BFE9 /* AppDelegate.swift */,
@@ -144,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				5A82F98A1D684E99009FB9BA /* Cube.swift */,
+				5A655E291D75A23900A69D9C /* Triangle.swift */,
 			);
 			name = geoModel;
 			sourceTree = "<group>";
@@ -154,6 +160,14 @@
 				5AD4FDA81CFC651F00BCA96B /* MusicCubeViewController.swift */,
 			);
 			name = musicbox;
+			sourceTree = "<group>";
+		};
+		5AF993681D7026A00044425C /* glcore */ = {
+			isa = PBXGroup;
+			children = (
+				5AF993661D7026950044425C /* GLWrapper.swift */,
+			);
+			name = glcore;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -292,9 +306,11 @@
 				5AD4FDA91CFC651F00BCA96B /* MusicCubeViewController.swift in Sources */,
 				5A4E5E531CF5ED0A0075BFE9 /* ViewController.swift in Sources */,
 				5A82F98B1D684E99009FB9BA /* Cube.swift in Sources */,
+				5AF993671D7026950044425C /* GLWrapper.swift in Sources */,
 				5A3ED8E51CFC092A0085F912 /* GLTester.swift in Sources */,
 				5A4E5E511CF5ED0A0075BFE9 /* AppDelegate.swift in Sources */,
 				5A7B590C1CFC317500DB617C /* MyGLKViewController.swift in Sources */,
+				5A655E2A1D75A23900A69D9C /* Triangle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +458,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = glesTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = flonly.glesTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

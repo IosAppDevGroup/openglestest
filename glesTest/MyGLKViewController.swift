@@ -12,6 +12,8 @@ import GLKit
 class MyGLKViewController: GLKViewController {
     
     private var cube:Cube? = nil
+    private var triangle: Triangle? = nil
+    var glContext: EAGLContext?  = nil
     
     override func overrideTraitCollectionForChildViewController(childViewController: UIViewController) -> UITraitCollection? {
         return super.overrideTraitCollectionForChildViewController(childViewController)
@@ -23,7 +25,7 @@ class MyGLKViewController: GLKViewController {
 
         prepareGLContext()
         
-        cube = Cube()
+        //cube = Cube()
     }
 
     // MARK: private function
@@ -31,13 +33,14 @@ class MyGLKViewController: GLKViewController {
     private func prepareGLContext(){
         let v = self.view as! GLKView
     
-        v.context = createEAGLContext()
+        glContext = createEAGLContext()
         
+        v.context = glContext!
         v.drawableColorFormat = GLKViewDrawableColorFormat.RGBA8888
         v.drawableDepthFormat = GLKViewDrawableDepthFormat.Format24
         v.drawableStencilFormat = GLKViewDrawableStencilFormat.Format8
-        
         v.drawableMultisample = GLKViewDrawableMultisample.Multisample4X
+        
     }
     
     private func createEAGLContext() -> EAGLContext{
@@ -56,7 +59,16 @@ class MyGLKViewController: GLKViewController {
     
     
     override func glkView(view: GLKView, drawInRect rect: CGRect) {
-        cube?.draw()
+        //cube!.draw(view, drawInRect:rect)
+//        if triangle == nil {
+//            triangle = Triangle()
+//        }
+        if( cube == nil) {
+            cube = Cube()
+        }
+        cube!.draw(view, drawInRect: rect)
+        //triangle!.draw()
+        //glContext!.presentRenderbuffer(Int(GL_RENDERBUFFER))
     }
     
 }
