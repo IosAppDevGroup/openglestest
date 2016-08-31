@@ -22,7 +22,45 @@ class Cube {
             -1.0, 1.0, 1.0
     ]
 
-    private var vertex_index: [GLshort] = [
+    private var vertex_color : [GLfloat] = [
+        0.583,  0.771,  0.014,
+        0.609,  0.115,  0.436,
+        0.327,  0.483,  0.844,
+        0.822,  0.569,  0.201,
+        0.435,  0.602,  0.223,
+        0.310,  0.747,  0.185,
+        0.597,  0.770,  0.761,
+        0.559,  0.436,  0.730,
+        0.359,  0.583,  0.152,
+        0.483,  0.596,  0.789,
+        0.559,  0.861,  0.639,
+        0.195,  0.548,  0.859,
+        0.014,  0.184,  0.576,
+        0.771,  0.328,  0.970,
+        0.406,  0.615,  0.116,
+        0.676,  0.977,  0.133,
+        0.971,  0.572,  0.833,
+        0.140,  0.616,  0.489,
+        0.997,  0.513,  0.064,
+        0.945,  0.719,  0.592,
+        0.543,  0.021,  0.978,
+        0.279,  0.317,  0.505,
+        0.167,  0.620,  0.077,
+        0.347,  0.857,  0.137,
+        0.055,  0.953,  0.042,
+        0.714,  0.505,  0.345,
+        0.783,  0.290,  0.734,
+        0.722,  0.645,  0.174,
+        0.302,  0.455,  0.848,
+        0.225,  0.587,  0.040,
+        0.517,  0.713,  0.338,
+        0.053,  0.959,  0.120,
+        0.393,  0.621,  0.362,
+        0.673,  0.211,  0.457,
+        0.820,  0.883,  0.371,
+        0.982,  0.099,  0.879
+    ]
+    private var vertex_index: [GLubyte] = [
         0,1,2,
         0,2,3,
         0,1,5,
@@ -37,31 +75,48 @@ class Cube {
         5,6,7
     ]
     
+    private var vertex_index1: [GLubyte] = [
+        0,1,2,
+        0,2,3,
+        0,1,5
+    ]
+
+    
     private var vertexShaderCode:String = "attribute vec4 Position;"
             + "attribute vec4 SourceColor;"
             + "varying vec4 DestinationColor;"
+            + "uniform mat4 mvpMatrix; "
             + "void main(void) {"
             + "     DestinationColor = SourceColor;"
 //            + "     //DestinationColor = (1.0, 0.0, 0.0, 1.0);"
-            + "     gl_Position = Position;"
+            + "     gl_Position = mvpMatrix * Position;"
+//            + "     gl_Position = Position;"
             + "}"
     
     private var fragmentShaderCode:String = "varying lowp vec4 DestinationColor;"
             + "void main(void) { "
             + "    gl_FragColor = DestinationColor; "
-            + "    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); "
+//            + "    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); "
             + "}"
     
     //private var vertexShader
-    var vertexBuffer:GLuint = 0;
-    var indexBuffer :GLuint = 0;
-    var vertexShader : GLuint = 0;
-    var fragmentShader: GLuint = 0;
-    var glProgram: GLuint = 0;
+    var vertexBuffer:GLuint = 0
+    var colorBuffer: GLuint = 0
+    var indexBuffer :GLuint = 0
+    var vertexShader : GLuint = 0
+    var fragmentShader: GLuint = 0
+    var glProgram: GLuint = 0
     
     // MARK: shader attributes
-    var glPostionSlot: GLuint = 0;
-    var glColorSlot :GLuint = 0;
+    var glPostionSlot: GLuint = 0
+    var glColorSlot : GLuint = 0
+    var glMvp : GLuint = 0
+    
+    // MARK: MVP
+    var perspectivMatrix : GLKMatrix4 = GLKMatrix4MakePerspective(45, 4/3, 0.1, 100.0)
+    var viewMatrix : GLKMatrix4 = GLKMatrix4MakeLookAt(0, 0, 3, 0, 0, 0, 0, 1, 0)
+    var modelMatrix : GLKMatrix4 = GLKMatrix4Identity
+    var mvpMatrix : GLKMatrix4? = nil
     
     // MARK: construct
     init() {
@@ -69,7 +124,13 @@ class Cube {
         initVertexBuffer()
         GLWrapper.checkGlError("initVertexBuffer_E")
         createProgram()
-        GLWrapper.checkGlError("createProgram_S")
+        GLWrapper.checkGlError("createProgram_E")
+        initMVP()
+    }
+    
+    private func initMVP(){
+        GLKMatrix4RotateWithVector3(<#T##matrix: GLKMatrix4##GLKMatrix4#>, <#T##radians: Float##Float#>, <#T##axisVector: GLKVector3##GLKVector3#>)
+        mvpMatrix = GLKMatrix4Multiply(perspectivMatrix, GLKMatrix4Multiply(viewMatrix, modelMatrix))
     }
     
     func createProgram(){
@@ -99,9 +160,11 @@ class Cube {
         glUseProgram(glProgram)
         
         glPostionSlot = GLuint(glGetAttribLocation(glProgram, "Position"))
-        //glColorSlot = GLuint(glGetAttribLocation(glProgram, "SourceColor"))
+        glColorSlot = GLuint(glGetAttribLocation(glProgram, "SourceColor"))
+//        glMvp  = GLuint(glGetUniformLocation(glProgram, "mvp"))
+        
         glEnableVertexAttribArray(GLuint(glPostionSlot))
-        //glEnableVertexAttribArray(GLuint(glColorSlot))
+        glEnableVertexAttribArray(GLuint(glColorSlot))
         
     }
     
@@ -126,38 +189,48 @@ class Cube {
 //    }
     
     func initVertexBuffer(){
+        
         glGenBuffers(1, &vertexBuffer)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
-        glBufferData(GLenum(GL_ARRAY_BUFFER), vertex_data.count * sizeof(GLfloat), &vertex_data, GLenum(GL_STATIC_DRAW))
+        glBufferData(GLenum(GL_ARRAY_BUFFER), vertex_data.count * sizeof(GLfloat), vertex_data, GLenum(GL_STATIC_DRAW))
+        
+        glGenBuffers(1, &colorBuffer)
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
+        glBufferData(GLenum(GL_ARRAY_BUFFER), vertex_color.count * sizeof(GLfloat), vertex_color, GLenum(GL_STATIC_DRAW))
         
         glGenBuffers(1, &indexBuffer)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), indexBuffer)
-        glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), vertex_index.count*sizeof(GLshort), &vertex_index, GLenum(GL_STATIC_DRAW))
+        glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), vertex_index.count*sizeof(GLshort), vertex_index, GLenum(GL_STATIC_DRAW))
     }
     
     func draw(view: GLKView, drawInRect rect: CGRect){
         if(glProgram == 0){
             return
         }
+        
         GLWrapper.checkGlError("Draw_S")
         glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0)
         glClear(GLenum(GL_COLOR_BUFFER_BIT))
         //glViewport(0, 0, 200,400)
         
+        glUseProgram(glProgram)
+        GLWrapper.setUniformMatrix4fv(glProgram, name: "mvpMatrix", x: mvpMatrix!.array)
+        //glUniformMatrix4fv(GLint(glMvp), 1, GLboolean(GL_FALSE), mvpMatrix!.array)
         GLWrapper.checkGlError("Draw_1")
-        glEnableVertexAttribArray(glPostionSlot)
+        
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
-        // glVertexAttribPointer(GLuint(GLKVertexAttrib.Position.rawValue), 3, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0, nil)
         glVertexAttribPointer(glPostionSlot, 3, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0, UnsafePointer<Int>(bitPattern:0))
+        
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
+        glVertexAttribPointer(glColorSlot, 3, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0, UnsafePointer<Int>(bitPattern:0))
         
         // glEnableVertexAttribArray(GLuint(GLKVertexAttrib.Position.rawValue))
         GLWrapper.checkGlError("Draw_2")
 
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), indexBuffer)
         GLWrapper.checkGlError("Draw_3")
-        glDrawElements(GLenum(GL_TRIANGLES), GLsizei(vertex_index.count), GLenum(GL_SHORT), UnsafePointer<Int>(bitPattern:0))
+        glDrawElements(GLenum(GL_TRIANGLES), GLsizei(vertex_index.count), GLenum(GL_UNSIGNED_BYTE), UnsafePointer<Int>(bitPattern:0))
         print("vertex_index.count = \(vertex_index.count)\n")
-        
         
         GLWrapper.checkGlError("Draw_4")
     }
