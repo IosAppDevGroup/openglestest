@@ -12,14 +12,14 @@ import GLKit
 class Cube {
 
     private var vertex_data: [GLfloat] = [
-            -1.0, -1.0, -1.0,
-            1.0, -1.0, -1.0,
-            1.0, 1.0, -1.0,
-            -1.0, 1.0, -1.0,
-            -1.0, -1.0, 1.0,
-            1.0, -1.0, 1.0,
-            1.0, 1.0, 1.0,
-            -1.0, 1.0, 1.0
+        -1.0, -1.0, -1.0,
+        -1.0, -1.0, 1.0,
+        1.0, -1.0, 1.0,
+        1.0, -1.0, -1.0,
+        -1.0, 1.0, -1.0,
+        -1.0, 1.0, 1.0,
+        1.0, 1.0, 1.0,
+        1.0, 1.0, -1.0
     ]
 
     private var vertex_color : [GLfloat] = [
@@ -60,7 +60,7 @@ class Cube {
         0.820,  0.883,  0.371,
         0.982,  0.099,  0.879
     ]
-    private var vertex_index: [GLubyte] = [
+    private var vertex_index1: [GLubyte] = [
         0,1,2,
         0,2,3,
         0,1,5,
@@ -75,10 +75,19 @@ class Cube {
         5,6,7
     ]
     
-    private var vertex_index1: [GLubyte] = [
+    private var vertex_index: [GLubyte] = [
         0,1,2,
         0,2,3,
-        0,1,5
+        0,1,5,
+        0,4,5,
+        2,3,6,
+        3,6,7,
+        0,3,7,
+        0,4,7,
+        1,2,6,
+        1,5,6,
+        4,5,6,
+        4,7,6
     ]
 
     
@@ -99,6 +108,9 @@ class Cube {
 //            + "    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); "
             + "}"
     
+    var viewWidth: Float = 1.0
+    var viewHeight: Float = 1.0
+    
     //private var vertexShader
     var vertexBuffer:GLuint = 0
     var colorBuffer: GLuint = 0
@@ -114,12 +126,14 @@ class Cube {
     
     // MARK: MVP
     var perspectivMatrix : GLKMatrix4 = GLKMatrix4MakePerspective(45, 4/3, 0.1, 100.0)
-    var viewMatrix : GLKMatrix4 = GLKMatrix4MakeLookAt(0, 0, 3, 0, 0, 0, 0, 1, 0)
+    var viewMatrix : GLKMatrix4 = GLKMatrix4MakeLookAt(2, 3, 3, 0, 0, 0, 0, 1, 0)
     var modelMatrix : GLKMatrix4 = GLKMatrix4Identity
     var mvpMatrix : GLKMatrix4? = nil
     
     // MARK: construct
-    init() {
+    init(width:Float, height: Float) {
+        viewWidth = width
+        viewHeight = height
         GLWrapper.checkGlError("initVertexBuffer_S")
         initVertexBuffer()
         GLWrapper.checkGlError("initVertexBuffer_E")
@@ -129,7 +143,9 @@ class Cube {
     }
     
     private func initMVP(){
-        GLKMatrix4RotateWithVector3(<#T##matrix: GLKMatrix4##GLKMatrix4#>, <#T##radians: Float##Float#>, <#T##axisVector: GLKVector3##GLKVector3#>)
+        //GLKMatrix4RotateWithVector3(modelMatrix, 20, GLKVector3(v:(1,1,0)))
+        print( " viewWidth = \(viewWidth)  viewHeight = \(viewHeight)")
+        perspectivMatrix = GLKMatrix4MakePerspective(45, viewWidth/viewHeight, 0.1, 100.0)
         mvpMatrix = GLKMatrix4Multiply(perspectivMatrix, GLKMatrix4Multiply(viewMatrix, modelMatrix))
     }
     
@@ -210,7 +226,10 @@ class Cube {
         
         GLWrapper.checkGlError("Draw_S")
         glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0)
-        glClear(GLenum(GL_COLOR_BUFFER_BIT))
+        glEnable(GLenum(GL_DEPTH_TEST))
+        glDepthFunc(GLenum(GL_LESS))
+        glClear(GLenum(GL_COLOR_BUFFER_BIT) | GLenum(GL_DEPTH_BUFFER_BIT))
+
         //glViewport(0, 0, 200,400)
         
         glUseProgram(glProgram)
@@ -230,7 +249,7 @@ class Cube {
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), indexBuffer)
         GLWrapper.checkGlError("Draw_3")
         glDrawElements(GLenum(GL_TRIANGLES), GLsizei(vertex_index.count), GLenum(GL_UNSIGNED_BYTE), UnsafePointer<Int>(bitPattern:0))
-        print("vertex_index.count = \(vertex_index.count)\n")
+        //print("vertex_index.count = \(vertex_index.count)\n")
         
         GLWrapper.checkGlError("Draw_4")
     }

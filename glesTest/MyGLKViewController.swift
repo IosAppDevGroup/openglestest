@@ -64,7 +64,7 @@ class MyGLKViewController: GLKViewController {
 //            triangle = Triangle()
 //        }
         if( cube == nil) {
-            cube = Cube()
+            cube = Cube(width: Float(rect.width), height: Float(rect.height))
         }
         cube!.draw(view, drawInRect: rect)
         //triangle!.draw()
