@@ -51,12 +51,22 @@ class MyGLKViewController: GLKViewController {
             return EAGLContext.init(API: EAGLRenderingAPI.OpenGLES2)
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        print(" viewWillAppear ");
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        print(" viewWillTransitionToSize = \(size)")
+        cube?.updateViewSize(Float(size.width), h: Float(size.height))
+    }
 
     // MARK: Actions
     @IBAction func disMiss(sender: UIButton) {
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
     
     override func glkView(view: GLKView, drawInRect rect: CGRect) {
         //cube!.draw(view, drawInRect:rect)

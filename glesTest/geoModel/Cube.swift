@@ -126,7 +126,7 @@ class Cube {
     
     // MARK: MVP
     var perspectivMatrix : GLKMatrix4 = GLKMatrix4MakePerspective(45, 4/3, 0.1, 100.0)
-    var viewMatrix : GLKMatrix4 = GLKMatrix4MakeLookAt(2, 3, 3, 0, 0, 0, 0, 1, 0)
+    var viewMatrix : GLKMatrix4 = GLKMatrix4MakeLookAt(4, 3, 3, 0, 0, 0, 0, 1, 0)
     var modelMatrix : GLKMatrix4 = GLKMatrix4Identity
     var mvpMatrix : GLKMatrix4? = nil
     
@@ -143,10 +143,25 @@ class Cube {
     }
     
     private func initMVP(){
-        //GLKMatrix4RotateWithVector3(modelMatrix, 20, GLKVector3(v:(1,1,0)))
-        print( " viewWidth = \(viewWidth)  viewHeight = \(viewHeight)")
+        modelMatrix = GLKMatrix4RotateWithVector3(modelMatrix, 20, GLKVector3(v:(1,1,0)))
+        //print( " viewWidth = \(viewWidth)  viewHeight = \(viewHeight)")
         perspectivMatrix = GLKMatrix4MakePerspective(45, viewWidth/viewHeight, 0.1, 100.0)
         mvpMatrix = GLKMatrix4Multiply(perspectivMatrix, GLKMatrix4Multiply(viewMatrix, modelMatrix))
+    }
+    
+    private func updateMVP(){
+        //modelMatrix = GLKMatrix4RotateWithVector3(modelMatrix, 1, GLKVector3(v:(1 , 0, 0)))
+        modelMatrix = GLKMatrix4RotateX(modelMatrix, 0.01)
+        modelMatrix = GLKMatrix4RotateY(modelMatrix, 0.01)
+        modelMatrix = GLKMatrix4RotateZ(modelMatrix, 0.01)
+        //print( " viewWidth = \(viewWidth)  viewHeight = \(viewHeight)")
+        perspectivMatrix = GLKMatrix4MakePerspective(45, viewWidth/viewHeight, 0.1, 100.0)
+        mvpMatrix = GLKMatrix4Multiply(perspectivMatrix, GLKMatrix4Multiply(viewMatrix, modelMatrix))
+    }
+    
+    func updateViewSize(w:Float, h: Float){
+        viewWidth   = w
+        viewHeight  = h
     }
     
     func createProgram(){
@@ -231,7 +246,7 @@ class Cube {
         glClear(GLenum(GL_COLOR_BUFFER_BIT) | GLenum(GL_DEPTH_BUFFER_BIT))
 
         //glViewport(0, 0, 200,400)
-        
+        updateMVP()
         glUseProgram(glProgram)
         GLWrapper.setUniformMatrix4fv(glProgram, name: "mvpMatrix", x: mvpMatrix!.array)
         //glUniformMatrix4fv(GLint(glMvp), 1, GLboolean(GL_FALSE), mvpMatrix!.array)
