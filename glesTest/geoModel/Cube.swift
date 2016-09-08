@@ -103,8 +103,10 @@ class Cube {
             + "}"
     
     private var fragmentShaderCode:String = "varying lowp vec4 DestinationColor;"
+//            + "layout(location = 0) out vec4 color;"
             + "void main(void) { "
             + "    gl_FragColor = DestinationColor; "
+//            + "      color =  DestinationColor;"
 //            + "    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); "
             + "}"
     
@@ -150,6 +152,7 @@ class Cube {
     }
     
     private func updateMVP(){
+        
         //modelMatrix = GLKMatrix4RotateWithVector3(modelMatrix, 1, GLKVector3(v:(1 , 0, 0)))
         modelMatrix = GLKMatrix4RotateX(modelMatrix, 0.01)
         modelMatrix = GLKMatrix4RotateY(modelMatrix, 0.01)

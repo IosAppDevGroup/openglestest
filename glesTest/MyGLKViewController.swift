@@ -14,6 +14,7 @@ class MyGLKViewController: GLKViewController {
     private var cube:Cube? = nil
     private var triangle: Triangle? = nil
     var glContext: EAGLContext?  = nil
+    var pinchRecognizer: UIPinchGestureRecognizer? = nil
     
     override func overrideTraitCollectionForChildViewController(childViewController: UIViewController) -> UITraitCollection? {
         return super.overrideTraitCollectionForChildViewController(childViewController)
@@ -23,12 +24,23 @@ class MyGLKViewController: GLKViewController {
         super.viewDidLoad()
         self.preferredFramesPerSecond = 60;
 
+        initGestureRecognizer()
         prepareGLContext()
         
         //cube = Cube()
     }
 
+
     // MARK: private function
+    private func initGestureRecognizer(){
+        pinchRecognizer = UIPinchGestureRecognizer.init(target: self, action: #selector(MyGLKViewController.onPinchEvent(_:)))
+        self.view.addGestureRecognizer(pinchRecognizer!)
+        
+    }
+    
+    @IBAction func onPinchEvent(pinchRecognizer: UIPinchGestureRecognizer){
+        print("onPinchEvent\n")
+    }
 
     private func prepareGLContext(){
         let v = self.view as! GLKView

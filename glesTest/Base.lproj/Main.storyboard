@@ -82,6 +82,7 @@
                                 </variation>
                             </button>
                         </subviews>
+                        <gestureRecognizers/>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="zYM-7f-dID"/>
@@ -94,10 +95,12 @@
                         </variation>
                         <connections>
                             <outlet property="delegate" destination="Xg7-DB-ThY" id="qeg-nf-t9Q"/>
+                            <outletCollection property="gestureRecognizers" destination="z5j-ZF-jQ6" appends="YES" id="c3k-ba-Ro0"/>
                         </connections>
                     </glkView>
                 </glkViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cfW-DB-fU5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="z5j-ZF-jQ6"/>
             </objects>
             <point key="canvasLocation" x="100" y="-18"/>
         </scene>
