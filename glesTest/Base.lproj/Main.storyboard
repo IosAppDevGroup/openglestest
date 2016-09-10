@@ -8,12 +8,12 @@
         <!--View Controller-->
         <scene sceneID="HJu-yz-9Ea">
             <objects>
-                <viewController id="WeJ-7I-XEg" sceneMemberID="viewController">
+                <viewController id="WeJ-7I-XEg" customClass="ViewController" customModule="glesTest" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="AdQ-pm-UtF"/>
                         <viewControllerLayoutGuide type="bottom" id="Yfh-LD-9yI"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="XSI-AE-ol9">
+                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="XSI-AE-ol9">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -38,12 +38,24 @@
                                     <segue destination="JBg-vu-Zer" kind="presentation" id="fnK-pe-ere"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="goc-Ge-GhP">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="testGestureRecognizer"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="20" y="343" width="158" height="30"/>
+                                </variation>
+                                <connections>
+                                    <segue destination="dfL-L0-c2K" kind="show" id="aH1-vZ-ebb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="xgT-by-fcH"/>
                                 <exclude reference="JVd-qK-nLt"/>
+                                <exclude reference="goc-Ge-GhP"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular">
@@ -54,13 +66,76 @@
                         <variation key="widthClass=compact">
                             <mask key="subviews">
                                 <include reference="JVd-qK-nLt"/>
+                                <include reference="goc-Ge-GhP"/>
+                            </mask>
+                        </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="2PQ-GR-Ggu" appends="YES" id="06K-pf-H6i"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="pinchRecognizer" destination="2PQ-GR-Ggu" id="4Ra-Jz-c8M"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ri5-f5-u6Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="2PQ-GR-Ggu">
+                    <connections>
+                        <action selector="onPinchEvent:" destination="WeJ-7I-XEg" id="lga-sl-ZGH"/>
+                    </connections>
+                </pinchGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-568" y="-18"/>
+        </scene>
+        <!--Gesture Recognizer View Controller-->
+        <scene sceneID="dRb-ig-V6S">
+            <objects>
+                <viewController id="dfL-L0-c2K" customClass="GestureRecognizerViewController" customModule="glesTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wl0-lt-ren"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ptn-mU-uDF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nmb-gH-nIr">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wjw-xt-Dck">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="dismis"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="16" y="20" width="44" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="dismis:" destination="dfL-L0-c2K" eventType="touchUpInside" id="5OG-Tq-GYc"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Tu-zf-W7B">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" red="1" green="0.38520157620000001" blue="0.22729073659999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="34" y="115" width="322" height="297"/>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="Wjw-xt-Dck"/>
+                                <exclude reference="3Tu-zf-W7B"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="Wjw-xt-Dck"/>
+                                <include reference="3Tu-zf-W7B"/>
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="pinchView" destination="3Tu-zf-W7B" id="tvd-l9-jSa"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ri5-f5-u6Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z1g-6J-Jpq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-568" y="-18"/>
+            <point key="canvasLocation" x="-594" y="767"/>
         </scene>
         <!--GLKit View Controller-->
         <scene sceneID="596-4b-h4C">
@@ -127,6 +202,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <gestureRecognizers/>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="Z8P-b7-wrO"/>
@@ -139,10 +215,19 @@
                         </variation>
                         <connections>
                             <outlet property="delegate" destination="JBg-vu-Zer" id="gBm-WU-iHA"/>
+                            <outletCollection property="gestureRecognizers" destination="28v-w9-UTM" appends="YES" id="osc-Bh-QmI"/>
                         </connections>
                     </glkView>
+                    <connections>
+                        <outlet property="pinchRecognizer" destination="28v-w9-UTM" id="8Gf-Zy-hg1"/>
+                    </connections>
                 </glkViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="124-9h-p5d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="28v-w9-UTM">
+                    <connections>
+                        <action selector="onPinchEvent:" destination="JBg-vu-Zer" id="Exa-lq-DI9"/>
+                    </connections>
+                </pinchGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="99" y="767"/>
         </scene>

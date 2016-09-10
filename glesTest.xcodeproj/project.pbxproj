@@ -21,6 +21,7 @@
 		5A7B590C1CFC317500DB617C /* MyGLKViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7B590B1CFC317500DB617C /* MyGLKViewController.swift */; };
 		5A82F98B1D684E99009FB9BA /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A82F98A1D684E99009FB9BA /* Cube.swift */; };
 		5AD4FDA91CFC651F00BCA96B /* MusicCubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4FDA81CFC651F00BCA96B /* MusicCubeViewController.swift */; };
+		5AEFB4A71D8253AC005FDD12 /* GestureRecognizerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEFB4A61D8253AC005FDD12 /* GestureRecognizerViewController.swift */; };
 		5AF993671D7026950044425C /* GLWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF993661D7026950044425C /* GLWrapper.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		5A7B590B1CFC317500DB617C /* MyGLKViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyGLKViewController.swift; sourceTree = "<group>"; };
 		5A82F98A1D684E99009FB9BA /* Cube.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cube.swift; path = geoModel/Cube.swift; sourceTree = "<group>"; };
 		5AD4FDA81CFC651F00BCA96B /* MusicCubeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicCubeViewController.swift; sourceTree = "<group>"; };
+		5AEFB4A61D8253AC005FDD12 /* GestureRecognizerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureRecognizerViewController.swift; sourceTree = "<group>"; };
 		5AF993661D7026950044425C /* GLWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GLWrapper.swift; path = glcore/GLWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,6 +127,7 @@
 				5A4E5E5C1CF5ED0A0075BFE9 /* Info.plist */,
 				5A3ED8E41CFC092A0085F912 /* GLTester.swift */,
 				5A7B590B1CFC317500DB617C /* MyGLKViewController.swift */,
+				5AEFB4A61D8253AC005FDD12 /* GestureRecognizerViewController.swift */,
 			);
 			path = glesTest;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 			files = (
 				5AD4FDA91CFC651F00BCA96B /* MusicCubeViewController.swift in Sources */,
 				5A1AADDC1D78070800C4FC3C /* TexturedCube.swift in Sources */,
+				5AEFB4A71D8253AC005FDD12 /* GestureRecognizerViewController.swift in Sources */,
 				5A4E5E531CF5ED0A0075BFE9 /* ViewController.swift in Sources */,
 				5A82F98B1D684E99009FB9BA /* Cube.swift in Sources */,
 				5AF993671D7026950044425C /* GLWrapper.swift in Sources */,
