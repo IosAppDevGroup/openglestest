@@ -11,76 +11,126 @@ import GLKit
 
 class MyGLKViewController: GLKViewController {
     
-    private var cube:Cube? = nil
-    private var triangle: Triangle? = nil
+    fileprivate var cube:Cube? = nil
+    fileprivate var triangle: Triangle? = nil
     var glContext: EAGLContext?  = nil
-    @IBOutlet var pinchRecognizer: UIPinchGestureRecognizer!
+    var pinchRecognizer: UIPinchGestureRecognizer?
+    var panRecognizer: UIPanGestureRecognizer?
+    var translateFromPoint : CGPoint = CGPoint()
     
-    override func overrideTraitCollectionForChildViewController(childViewController: UIViewController) -> UITraitCollection? {
-        return super.overrideTraitCollectionForChildViewController(childViewController)
+    override func overrideTraitCollection(forChildViewController childViewController: UIViewController) -> UITraitCollection? {
+        return super.overrideTraitCollection(forChildViewController: childViewController)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.preferredFramesPerSecond = 60;
 
-//        initGestureRecognizer()
+        initGestureRecognizer()
         prepareGLContext()
         
         //cube = Cube()
     }
 
-
     // MARK: private function
-//    private func initGestureRecognizer(){
-//        pinchRecognizer = UIPinchGestureRecognizer.init(target: self, action: #selector(MyGLKViewController.onPinchEvent(_:)))
-//        self.view.addGestureRecognizer(pinchRecognizer!)
-//        
-//    }
-    
-    @IBAction func onPinchEvent(pinchRecognizer: UIPinchGestureRecognizer){
-        print("onPinchEvent\n")
+    fileprivate func initGestureRecognizer(){
+        
+        // pinch
+        self.view.isMultipleTouchEnabled = true
+        self.view.isUserInteractionEnabled = true
+        pinchRecognizer = UIPinchGestureRecognizer.init(target: self, action: #selector(MyGLKViewController.onPinchEvent(_:)))
+        self.view.addGestureRecognizer(pinchRecognizer!)
+        
+        // pan
+        panRecognizer = UIPanGestureRecognizer.init(target: self, action: #selector(MyGLKViewController.onPanEvent(_:)))
+        panRecognizer?.minimumNumberOfTouches = 1
+        self.view.addGestureRecognizer(panRecognizer!)
     }
-
-    private func prepareGLContext(){
+    
+    func onPanEvent(_ panEvent: UIPanGestureRecognizer){
+        print("onPanEvent = \(panEvent)\n")
+        let currentLocation = panEvent.translation(in: self.view)
+        //let velocity = panEvent.velocity(in: self.view)
+        let movedVector = CGVector.init(dx: (currentLocation.x - self.translateFromPoint.x) / 100,
+                                        dy: (currentLocation.y - self.translateFromPoint.y) / 100 )
+        switch panEvent.state {
+        case .began:
+            translateFromPoint = panEvent.translation(in: self.view)
+            break
+        case .changed:
+            updateTranslate(movedVector, false)
+            //updateTranslate(CGVector.init(dx: 0.1, dy: 0.1), true)
+            print(" currentLocation = \(currentLocation) movedVector = \(movedVector) velocity =" +
+                " \(panEvent.velocity(in: self.view)) view.size = \(view.frame.size)\n")
+            break
+        case .cancelled:
+            break
+        case .ended:
+            updateTranslate(movedVector, true)
+            break
+        default:
+            break
+        }
+    }
+    
+    func onPinchEvent(_ pinchRecognizer: UIPinchGestureRecognizer){
+        print("onPinchEvent pinchRecognizer = \(pinchRecognizer)\n")
+        
+        print("pinchRecognizer.scale = \(pinchRecognizer.scale)\n ")
+        if(pinchRecognizer.state == .changed){
+            updateScale(pinchRecognizer.scale.native,false)
+        } else if (pinchRecognizer.state == .ended){
+            updateScale(pinchRecognizer.scale.native,true)
+        }
+    }
+    
+    fileprivate func updateTranslate(_ vector: CGVector, _ isKeep: Bool){
+       cube?.translate(vector,isKeep)
+    }
+    
+    fileprivate func updateScale(_ scale: Double, _ isKeep: Bool){
+        cube?.updateScale(scale, isKeep)
+    }
+    
+    fileprivate func prepareGLContext(){
         let v = self.view as! GLKView
     
         glContext = createEAGLContext()
         
         v.context = glContext!
         v.drawableColorFormat = GLKViewDrawableColorFormat.RGBA8888
-        v.drawableDepthFormat = GLKViewDrawableDepthFormat.Format24
-        v.drawableStencilFormat = GLKViewDrawableStencilFormat.Format8
-        v.drawableMultisample = GLKViewDrawableMultisample.Multisample4X
+        v.drawableDepthFormat = GLKViewDrawableDepthFormat.format24
+        v.drawableStencilFormat = GLKViewDrawableStencilFormat.format8
+        v.drawableMultisample = GLKViewDrawableMultisample.multisample4X
         
     }
     
-    private func createEAGLContext() -> EAGLContext{
-        if let context = EAGLContext.init(API: EAGLRenderingAPI.OpenGLES3) {
+    fileprivate func createEAGLContext() -> EAGLContext{
+        if let context = EAGLContext.init(api: EAGLRenderingAPI.openGLES3) {
             return context
         }
         else {
-            return EAGLContext.init(API: EAGLRenderingAPI.OpenGLES2)
+            return EAGLContext.init(api: EAGLRenderingAPI.openGLES2)
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print(" viewWillAppear ");
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
         print(" viewWillTransitionToSize = \(size)")
         cube?.updateViewSize(Float(size.width), h: Float(size.height))
     }
 
     // MARK: Actions
-    @IBAction func disMiss(sender: UIButton) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func disMiss(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
     }
     
-    override func glkView(view: GLKView, drawInRect rect: CGRect) {
+    override func glkView(_ view: GLKView, drawIn rect: CGRect) {
         //cube!.draw(view, drawInRect:rect)
 //        if triangle == nil {
 //            triangle = Triangle()

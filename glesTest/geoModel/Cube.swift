@@ -11,7 +11,7 @@ import GLKit
 
 class Cube {
 
-    private var vertex_data: [GLfloat] = [
+    fileprivate var vertex_data: [GLfloat] = [
         -1.0, -1.0, -1.0,
         -1.0, -1.0, 1.0,
         1.0, -1.0, 1.0,
@@ -22,7 +22,7 @@ class Cube {
         1.0, 1.0, -1.0
     ]
 
-    private var vertex_color : [GLfloat] = [
+    fileprivate var vertex_color : [GLfloat] = [
         0.583,  0.771,  0.014,
         0.609,  0.115,  0.436,
         0.327,  0.483,  0.844,
@@ -60,7 +60,7 @@ class Cube {
         0.820,  0.883,  0.371,
         0.982,  0.099,  0.879
     ]
-    private var vertex_index1: [GLubyte] = [
+    fileprivate var vertex_index1: [GLubyte] = [
         0,1,2,
         0,2,3,
         0,1,5,
@@ -75,7 +75,7 @@ class Cube {
         5,6,7
     ]
     
-    private var vertex_index: [GLubyte] = [
+    fileprivate var vertex_index: [GLubyte] = [
         0,1,2,
         0,2,3,
         0,1,5,
@@ -91,7 +91,7 @@ class Cube {
     ]
 
     
-    private var vertexShaderCode:String = "attribute vec4 Position;"
+    fileprivate var vertexShaderCode:String = "attribute vec4 Position;"
             + "attribute vec4 SourceColor;"
             + "varying vec4 DestinationColor;"
             + "uniform mat4 mvpMatrix; "
@@ -102,7 +102,7 @@ class Cube {
 //            + "     gl_Position = Position;"
             + "}"
     
-    private var fragmentShaderCode:String = "varying lowp vec4 DestinationColor;"
+    fileprivate var fragmentShaderCode:String = "varying lowp vec4 DestinationColor;"
 //            + "layout(location = 0) out vec4 color;"
             + "void main(void) { "
             + "    gl_FragColor = DestinationColor; "
@@ -110,6 +110,10 @@ class Cube {
 //            + "    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); "
             + "}"
     
+    var scale :Float = 1.0
+    var tempScale : Float = 1.0
+    var translateVector = CGVector(dx: 0, dy: 0)
+    var tempTranslateVector = CGVector(dx: 0, dy: 0)
     var viewWidth: Float = 1.0
     var viewHeight: Float = 1.0
     
@@ -128,9 +132,10 @@ class Cube {
     
     // MARK: MVP
     var perspectivMatrix : GLKMatrix4 = GLKMatrix4MakePerspective(45, 4/3, 0.1, 100.0)
-    var viewMatrix : GLKMatrix4 = GLKMatrix4MakeLookAt(4, 3, 3, 0, 0, 0, 0, 1, 0)
+    var viewMatrix : GLKMatrix4 = GLKMatrix4MakeLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0)
     var modelMatrix : GLKMatrix4 = GLKMatrix4Identity
     var mvpMatrix : GLKMatrix4? = nil
+    
     
     // MARK: construct
     init(width:Float, height: Float) {
@@ -144,25 +149,67 @@ class Cube {
         initMVP()
     }
     
-    private func initMVP(){
+    fileprivate func initMVP(){
         modelMatrix = GLKMatrix4RotateWithVector3(modelMatrix, 20, GLKVector3(v:(1,1,0)))
         //print( " viewWidth = \(viewWidth)  viewHeight = \(viewHeight)")
         perspectivMatrix = GLKMatrix4MakePerspective(45, viewWidth/viewHeight, 0.1, 100.0)
         mvpMatrix = GLKMatrix4Multiply(perspectivMatrix, GLKMatrix4Multiply(viewMatrix, modelMatrix))
     }
     
-    private func updateMVP(){
+    fileprivate func updateMVP(){
         
         //modelMatrix = GLKMatrix4RotateWithVector3(modelMatrix, 1, GLKVector3(v:(1 , 0, 0)))
-        modelMatrix = GLKMatrix4RotateX(modelMatrix, 0.01)
-        modelMatrix = GLKMatrix4RotateY(modelMatrix, 0.01)
-        modelMatrix = GLKMatrix4RotateZ(modelMatrix, 0.01)
+        //modelMatrix = GLKMatrix4Scale(modelMatrix, scale, scale, scale)
+        // modelMatrix = GLKMatrix4RotateX(modelMatrix, 0.01)
+        // modelMatrix = GLKMatrix4RotateY(modelMatrix, 0.01)
+        // modelMatrix = GLKMatrix4RotateZ(modelMatrix, 0.01)
+        modelMatrix = GLKMatrix4Rotate(modelMatrix, 0.01, 1, 1, 1)
+        
+        var curModelMatrix = GLKMatrix4Identity
+        let curTranslateVector = CGVector.init(dx: translateVector.dx + tempTranslateVector.dx,
+                                               dy: translateVector.dy + tempTranslateVector.dy)
+        if(curTranslateVector.dx != 0 || curTranslateVector.dy != 0 ){
+            curModelMatrix = GLKMatrix4Translate(curModelMatrix, Float(curTranslateVector.dx), Float(curTranslateVector.dy), 0)
+            //tmpModelMatrix = GLKMatrix4Translate(tmpModelMatrix, 0.1, 0.1, 0)
+        }
+        
+        let curScale = scale * tempScale
+        if(curScale != 1.0){
+            curModelMatrix = GLKMatrix4Scale(curModelMatrix, curScale, curScale, curScale)
+        }
+        
+        curModelMatrix = GLKMatrix4Multiply(curModelMatrix, modelMatrix)
+        // curModelMatrix = GLKMatrix4Translate(curModelMatrix, 0.5,0.5,0)
+        // print(" modelMatrix = \(modelMatrix.array) curModelMatrix = \(curModelMatrix.array)\n")
+        
         //print( " viewWidth = \(viewWidth)  viewHeight = \(viewHeight)")
         perspectivMatrix = GLKMatrix4MakePerspective(45, viewWidth/viewHeight, 0.1, 100.0)
-        mvpMatrix = GLKMatrix4Multiply(perspectivMatrix, GLKMatrix4Multiply(viewMatrix, modelMatrix))
+        mvpMatrix = GLKMatrix4Multiply(perspectivMatrix, GLKMatrix4Multiply(viewMatrix, curModelMatrix))
     }
     
-    func updateViewSize(w:Float, h: Float){
+    func translate(_ vector: CGVector, _ isKeep: Bool){
+        
+        // OPENGL 中原点在左下角，因此Y的方向和view 的方向相反
+        if(isKeep){
+            self.translateVector.dx += vector.dx
+            self.translateVector.dy -= vector.dy
+            self.tempTranslateVector.dx = 0
+            self.tempTranslateVector.dy = 0
+        }else{
+            self.tempTranslateVector.dx = vector.dx
+            self.tempTranslateVector.dy = -vector.dy
+        }
+    }
+    
+    func updateScale(_ scale: Double, _ isKeep: Bool){
+        self.tempScale = Float(scale)
+        if(isKeep){
+            self.scale = self.scale * Float(scale)
+            self.tempScale = 1.0
+        }
+    }
+    
+    func updateViewSize(_ w:Float, h: Float){
         viewWidth   = w
         viewHeight  = h
     }
@@ -226,18 +273,18 @@ class Cube {
         
         glGenBuffers(1, &vertexBuffer)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
-        glBufferData(GLenum(GL_ARRAY_BUFFER), vertex_data.count * sizeof(GLfloat), vertex_data, GLenum(GL_STATIC_DRAW))
+        glBufferData(GLenum(GL_ARRAY_BUFFER), vertex_data.count * MemoryLayout<GLfloat>.size, vertex_data, GLenum(GL_STATIC_DRAW))
         
         glGenBuffers(1, &colorBuffer)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), colorBuffer)
-        glBufferData(GLenum(GL_ARRAY_BUFFER), vertex_color.count * sizeof(GLfloat), vertex_color, GLenum(GL_STATIC_DRAW))
+        glBufferData(GLenum(GL_ARRAY_BUFFER), vertex_color.count * MemoryLayout<GLfloat>.size, vertex_color, GLenum(GL_STATIC_DRAW))
         
         glGenBuffers(1, &indexBuffer)
         glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), indexBuffer)
-        glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), vertex_index.count*sizeof(GLshort), vertex_index, GLenum(GL_STATIC_DRAW))
+        glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), vertex_index.count*MemoryLayout<GLshort>.size, vertex_index, GLenum(GL_STATIC_DRAW))
     }
     
-    func draw(view: GLKView, drawInRect rect: CGRect){
+    func draw(_ view: GLKView, drawInRect rect: CGRect){
         if(glProgram == 0){
             return
         }

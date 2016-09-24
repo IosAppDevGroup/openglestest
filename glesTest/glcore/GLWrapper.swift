@@ -19,7 +19,7 @@ extension GLKMatrix4 {
 
 class GLWrapper {
     
-    class func loadShader(vertexShader: String, fragmentShader: String) -> (Bool, GLuint, GLuint, GLuint) {
+    class func loadShader(_ vertexShader: String, fragmentShader: String) -> (Bool, GLuint, GLuint, GLuint) {
         var vertShader: GLuint = 0
         var fragShader: GLuint = 0
         
@@ -52,31 +52,31 @@ class GLWrapper {
         return (true, program, vertShader, fragShader)
     }
     
-    class func compileShader(shader: UnsafeMutablePointer<GLuint>, type: GLenum, sourceString: String?) -> Bool {
+    class func compileShader(_ shader: UnsafeMutablePointer<GLuint>, type: GLenum, sourceString: String?) -> Bool {
         
         if let _sourceString = sourceString  {
             
             let sourceNString = _sourceString as NSString
             
-            var source: UnsafePointer<GLchar> = sourceNString.UTF8String
+            var source: UnsafePointer<GLchar>? = sourceNString.utf8String!
             var sourceLen: GLint = GLint(sourceNString.length)
             
-            shader.memory = glCreateShader(type)
-            print(" glCreateShader type = \(type) shader = \(shader.memory)")
-            glShaderSource(shader.memory, 1, &source, &sourceLen);
-            glCompileShader(shader.memory);
+            shader.pointee = glCreateShader(type)
+            print(" glCreateShader type = \(type) shader = \(shader.pointee)")
+            glShaderSource(shader.pointee, 1, &source, &sourceLen);
+            glCompileShader(shader.pointee);
             
             var status: GLint = GL_FALSE;
-            glGetShaderiv(shader.memory, UInt32(GL_COMPILE_STATUS), &status)
+            glGetShaderiv(shader.pointee, UInt32(GL_COMPILE_STATUS), &status)
             print( "compileShader status = \(status), GL_FALSE = \(GL_FALSE)")
             if status == GL_FALSE {
-                let infoLog = UnsafeMutablePointer<GLchar>.alloc(256)
+                let infoLog = UnsafeMutablePointer<GLchar>.allocate(capacity: 256)
                 var infoLogLength = GLsizei()
                 
-                glGetShaderInfoLog(shader.memory, GLsizei(256), &infoLogLength, infoLog)
-                NSLog(" compileShader():  glCompileShader() failed:  %@, %@", String(infoLog), " just test")
-                infoLog.dealloc(256)
-                glDeleteShader(shader.memory)
+                glGetShaderInfoLog(shader.pointee, GLsizei(256), &infoLogLength, infoLog)
+                NSLog(" compileShader():  glCompileShader() failed:  %@, %@", String(describing: infoLog), " just test")
+                infoLog.deallocate(capacity: 256)
+                glDeleteShader(shader.pointee)
                 return false
             }
             else {
@@ -91,34 +91,19 @@ class GLWrapper {
         }
     }
     
-    class func linkProgram(prog: GLuint) -> Bool {
+    class func linkProgram(_ prog: GLuint) -> Bool {
         
         glLinkProgram(prog)
-        
-        #if DEBUG
-            var logLength: GLint = 0
-            glGetShaderiv(prog, UInt32(GL_INFO_LOG_LENGTH), &logLength)
-            
-            if logLength > 0 {
-                
-                let pLog = malloc(Int(logLength))
-                let log = UnsafePointer<GLchar>(nilLiteral: pLog.memory)
-                
-                print("Program link log: \n\(log)")
-                
-                free(pLog)
-            }
-        #endif
         
         var status: GLint = GL_FALSE
         glGetProgramiv(prog, UInt32(GL_LINK_STATUS), &status)
         
         if status == GL_FALSE {
-            let infoLog = UnsafeMutablePointer<GLchar>.alloc(256)
+            let infoLog = UnsafeMutablePointer<GLchar>.allocate(capacity: 256)
             var infoLogLength = GLsizei()
             glGetProgramInfoLog(prog, GLsizei(256), &infoLogLength, infoLog)
-            NSLog(" linkProgram(): failed:  %@, %@", String(infoLog), " just test")
-            infoLog.dealloc(256)
+            NSLog(" linkProgram(): failed:  %@, %@", String(describing: infoLog), " just test")
+            infoLog.deallocate(capacity: 256)
             return false
         }
         
@@ -128,32 +113,32 @@ class GLWrapper {
 
 extension GLWrapper {
     
-    class func setUniform1f(program: GLuint, name: String, x: GLfloat) {
+    class func setUniform1f(_ program: GLuint, name: String, x: GLfloat) {
         let location = glGetUniformLocation(program, name)
         glUniform1f(location, x)
     }
     
-    class func setUniform1fv(program: GLuint, name: String, x: [GLfloat]) {
+    class func setUniform1fv(_ program: GLuint, name: String, x: [GLfloat]) {
         let location = glGetUniformLocation(program, name)
         glUniform1fv(location, GLsizei(x.count), x)
     }
     
-    class func setUniform1i(program: GLuint, name: String, x: GLint) {
+    class func setUniform1i(_ program: GLuint, name: String, x: GLint) {
         let location = glGetUniformLocation(program, name)
         glUniform1i(location, x)
     }
     
-    class func setUniform1iv(program: GLuint, name: String, x: [GLint]) {
+    class func setUniform1iv(_ program: GLuint, name: String, x: [GLint]) {
         let location = glGetUniformLocation(program, name)
         glUniform1iv(location, GLsizei(x.count), x)
     }
     
-    class func setUniformMatrix4fv(program: GLuint, name: String, x: [GLfloat]) {
+    class func setUniformMatrix4fv(_ program: GLuint, name: String, x: [GLfloat]) {
         let location = glGetUniformLocation(program, name)
         glUniformMatrix4fv(location, 1, GLboolean(GL_FALSE), x)
     }
     
-    class func setUniform4fv(program: GLuint, name: String, x: [GLfloat]) {
+    class func setUniform4fv(_ program: GLuint, name: String, x: [GLfloat]) {
         let location = glGetUniformLocation(program, name)
         glUniform4fv(location, 1, x)
     }
@@ -161,7 +146,7 @@ extension GLWrapper {
 
 extension GLWrapper {
     
-    class func bindTexture(index: GLenum, targe: GLenum, texture: GLuint) {
+    class func bindTexture(_ index: GLenum, targe: GLenum, texture: GLuint) {
         glActiveTexture(index)
         glBindTexture(targe, texture)
         glTexParameteri(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_MIN_FILTER), GL_LINEAR);
@@ -175,7 +160,7 @@ extension GLWrapper {
     /**
      * Checks to see if a GLES error has been raised.
      */
-    class func checkGlError(op: String) -> Void {
+    class func checkGlError(_ op: String) -> Void {
         let error:GLenum = glGetError()
         if error != GLenum(GL_NO_ERROR) {
             //print(" error = \(error)\n")
@@ -184,7 +169,7 @@ extension GLWrapper {
         }
     }
     
-    class func getGlStringError(error: GLenum) -> String {
+    class func getGlStringError(_ error: GLenum) -> String {
         switch (error) {
         case GLenum(GL_INVALID_ENUM):
             /*Given when an enumeration parameter is not a legal enumeration for that function.

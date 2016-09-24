@@ -24,21 +24,21 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
     
     func initGestureRecognizer(){
         
-        print( " self.view.userInteractionEnabled = \(self.view.userInteractionEnabled)")
-        print("self.view.multipleTouchEnabled  = \(self.view.multipleTouchEnabled)")
-        self.view.userInteractionEnabled = true
-        self.view.multipleTouchEnabled = true
+        print( " self.view.userInteractionEnabled = \(self.view.isUserInteractionEnabled)")
+        print("self.view.multipleTouchEnabled  = \(self.view.isMultipleTouchEnabled)")
+        self.view.isUserInteractionEnabled = true
+        self.view.isMultipleTouchEnabled = true
         
     }
     
     // MARK: gesture recognizer's handlers
-    @IBAction func onPinchEvent(sender: UIPinchGestureRecognizer) {
+    @IBAction func onPinchEvent(_ sender: UIPinchGestureRecognizer) {
         print(" ViewController onPinchEvent \n")
     }
 }

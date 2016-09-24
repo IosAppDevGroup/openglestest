@@ -48,11 +48,11 @@ class Triangle {
         vPosition = GLuint(glGetAttribLocation(glProgram, "vPosition"))
     }
     
-    private func initVBOs(){
+    fileprivate func initVBOs(){
         GLWrapper.checkGlError("initVBOs_S")
         glGenBuffers(1, &glVertexBuffer)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), glVertexBuffer)
-        glBufferData(GLenum(GL_ARRAY_BUFFER), Triangle.vertexBufferData.count*sizeof(GLfloat), &(Triangle.vertexBufferData), GLenum(GL_STATIC_DRAW))
+        glBufferData(GLenum(GL_ARRAY_BUFFER), Triangle.vertexBufferData.count*MemoryLayout<GLfloat>.size, &(Triangle.vertexBufferData), GLenum(GL_STATIC_DRAW))
         GLWrapper.checkGlError("initVBOs_E")
     }
     
@@ -63,7 +63,7 @@ class Triangle {
         GLWrapper.checkGlError("draw_S")
         glEnableVertexAttribArray(vPosition)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), glVertexBuffer)
-        glVertexAttribPointer(vPosition, 3, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0,UnsafePointer<Void>(bitPattern: 0))
+        glVertexAttribPointer(vPosition, 3, GLenum(GL_FLOAT), GLboolean(GL_FALSE), 0,UnsafeRawPointer(bitPattern: 0))
         
         glDrawArrays(GLenum(GL_TRIANGLES), 0, 3)
         glDisableVertexAttribArray(vPosition)

@@ -19,7 +19,7 @@ class TexturedCube: Cube{
         
     }
     
-    override func draw(view: GLKView, drawInRect rect: CGRect) {
+    override func draw(_ view: GLKView, drawInRect rect: CGRect) {
         
     }
 }

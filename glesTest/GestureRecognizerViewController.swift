@@ -22,18 +22,17 @@ class GestureRecognizerViewController: UIViewController {
         initGestureRecognizer()
     }
    
-    private func initGestureRecognizer(){
+    fileprivate func initGestureRecognizer(){
         
         // pinch
-        self.view.multipleTouchEnabled = true
-        self.view.userInteractionEnabled = true
+        self.view.isMultipleTouchEnabled = true
+        self.view.isUserInteractionEnabled = true
         pinchRec.addTarget(self, action: #selector(GestureRecognizerViewController.onPinchEvent(_:)))
-        self.view.addGestureRecognizer(pinchRec)
+//        self.view.addGestureRecognizer(pinchRec)
         
-        pinchView.multipleTouchEnabled = true
-        pinchView.userInteractionEnabled = true
+        pinchView.isMultipleTouchEnabled = true
+        pinchView.isUserInteractionEnabled = true
         pinchView.addGestureRecognizer(pinchRec)
-       
         
         // tap
 //        tapRec.addTarget(self, action: #selector(GestureRecognizerViewController.onTap(_:)))
@@ -47,15 +46,15 @@ class GestureRecognizerViewController: UIViewController {
     }
     
     // MARK: IBActions
-    @IBAction func dismis(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func dismis(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func onPinchEvent(sender: UIPinchGestureRecognizer){
+    @IBAction func onPinchEvent(_ sender: UIPinchGestureRecognizer){
        print("onPinchEvent sender = \(sender)")
     }
     
-    @IBAction func onTap(sender: UITapGestureRecognizer){
+    @IBAction func onTap(_ sender: UITapGestureRecognizer){
         print(" onTap sender =\(sender)")
     }
 }

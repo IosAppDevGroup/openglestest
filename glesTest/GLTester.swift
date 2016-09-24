@@ -23,20 +23,20 @@ class GLTester{
     
     func baseTest() -> Void {
         //eglContext = createBestEAGLContext();
-        EAGLContext.setCurrentContext(eglContext)
+        EAGLContext.setCurrent(eglContext)
         
-        EAGLContext.setCurrentContext(nil)
+        EAGLContext.setCurrent(nil)
     }
     
     class func createBestEAGLContext() -> EAGLContext{
-        if let eglContext = EAGLContext.init(API: EAGLRenderingAPI.OpenGLES3){
+        if let eglContext = EAGLContext.init(api: EAGLRenderingAPI.openGLES3){
             return eglContext
         }else{
-            return EAGLContext.init(API: EAGLRenderingAPI.OpenGLES2)
+            return EAGLContext.init(api: EAGLRenderingAPI.openGLES2)
         }
     }
     
-    func  createViewContext(glContext:EAGLContext, view:GLKView) -> Void {
+    func  createViewContext(_ glContext:EAGLContext, view:GLKView) -> Void {
         
     }
 }
